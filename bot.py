@@ -50,7 +50,7 @@ async def search_history_bot(ctx, *args):
             await ctx.send('Search keyword should be less than 255 characters')
         else:
             search_history = ['**Search history**']
-            search_history += get_search_history(search_keyword)
+            search_history += get_search_history(search_keyword) or ['No result']
             await ctx.send('\n'.join(search_history))
 
 
