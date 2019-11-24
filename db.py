@@ -17,7 +17,8 @@ def get_db_connection():
 
 
 def setup_db_table():
-    cur = get_db_connection().cursor()
+    db_connection = get_db_connection()
+    cur = db_connection.cursor()
     cur.execute(
         '''
             CREATE TABLE IF NOT EXISTS search_history (
@@ -44,7 +45,8 @@ def create_search_history(search_keyword):
 
 
 def get_search_history(search_keyword):
-    cur = get_db_connection().cursor()
+    db_connection = get_db_connection()
+    cur = db_connection.cursor()
     cur.execute(
         '''
         SELECT search_key FROM search_history where search_key LIKE '%{}%' 
