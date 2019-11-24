@@ -3,18 +3,21 @@ from datetime import datetime
 
 import settings as discord_settings
 
-config = {
-    'user': discord_settings.DB_USER,
-    'password': discord_settings.DB_PASSWORD,
-    'host': discord_settings.DB_HOST,
-    'database': discord_settings.DB_NAME,
-}
 
-db_connection = mysql.connector.connect(**config)
+def get_db_connection():
+    config = {
+        'user': discord_settings.DB_USER,
+        'password': discord_settings.DB_PASSWORD,
+        'host': discord_settings.DB_HOST,
+        'database': discord_settings.DB_NAME,
+    }
+
+    db_connection = mysql.connector.connect(**config)
+    return db_connection
 
 
 def setup_db_table():
-    cur = db_connection.cursor()
+    cur = get_db_connection().cursor()
     cur.execute(
         '''
             CREATE TABLE IF NOT EXISTS search_history (
@@ -32,6 +35,7 @@ def create_search_history(search_keyword):
         "(search_key, created)"
         "VALUES (%s, %s)"
     )
+    db_connection = get_db_connection()
     data = (search_keyword, datetime.utcnow())
     cur = db_connection.cursor()
     cur.execute(add_employee, data)
@@ -40,7 +44,7 @@ def create_search_history(search_keyword):
 
 
 def get_search_history(search_keyword):
-    cur = db_connection.cursor()
+    cur = get_db_connection().cursor()
     cur.execute(
         '''
         SELECT search_key FROM search_history where search_key LIKE '%{}%' 
