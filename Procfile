@@ -1,2 +1,2 @@
-web: python main.py
+web: python client.py
 bot: python bot.py
