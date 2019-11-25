@@ -4,6 +4,13 @@ import settings as discord_settings
 
 
 def search_google(search_term, **kwargs):
+    """
+    search_google
+        method to return google search result in formatted data
+    :param search_term: Search keyword
+    :param kwargs:
+    :return: Search results
+    """
     service = build("customsearch", "v1", developerKey=discord_settings.GOOGLE_API_KEY)
     results = service.cse().list(
         q=search_term,

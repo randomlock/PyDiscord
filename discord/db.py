@@ -17,6 +17,10 @@ def get_db_connection():
 
 
 def setup_db_table():
+    """
+    setup_db_table
+        Method to setup search history table if not exists.
+    """
     db_connection = get_db_connection()
     cur = db_connection.cursor()
     cur.execute(
@@ -31,6 +35,10 @@ def setup_db_table():
 
 
 def create_search_history(search_keyword):
+    """
+    create_search_history
+        method to create search history info in database
+    """
     add_employee = (
         "REPLACE  INTO search_history"
         "(search_key, created)"
@@ -44,7 +52,16 @@ def create_search_history(search_keyword):
     cur.close()
 
 
-def get_search_history(search_keyword):
+def get_search_history(
+        search_keyword,
+        result_count=discord_settings.MAX_SEARCH_HISTORY_RESULT_COUNT,
+):
+    """
+    get_search_history
+        method to get recent search history for a specified search keyword
+    :param search_keyword:
+    :return:
+    """
     db_connection = get_db_connection()
     cur = db_connection.cursor()
     cur.execute(
@@ -53,7 +70,7 @@ def get_search_history(search_keyword):
         ORDER BY created DESC LIMIT {}
         '''.format(
             search_keyword,
-            discord_settings.MAX_SEARCH_HISTORY_RESULT_COUNT,
+            result_count,
         )
     )
     search_results = []
