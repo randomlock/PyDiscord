@@ -1,2 +1,2 @@
-client: python client.py
-bot: python bot.py
+client: python discord/client.py
+bot: python discord/bot.py
