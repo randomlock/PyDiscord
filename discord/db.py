@@ -39,7 +39,7 @@ def create_search_history(search_keyword):
     create_search_history
         method to create search history info in database
     """
-    add_employee = (
+    statement = (
         "REPLACE  INTO search_history"
         "(search_key, created)"
         "VALUES (%s, %s)"
@@ -47,7 +47,7 @@ def create_search_history(search_keyword):
     db_connection = get_db_connection()
     data = (search_keyword, datetime.utcnow())
     cur = db_connection.cursor()
-    cur.execute(add_employee, data)
+    cur.execute(statement, data)
     db_connection.commit()
     cur.close()
 
